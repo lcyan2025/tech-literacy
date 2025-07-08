@@ -79,6 +79,7 @@ const getPageDetails = async (id: string, type: string): Promise<any> => {
               name: data.Image?.files[0]?.name || "",
               url: data.Image?.files[0]?.file.url || "",
             },
+            date: data.Date?.date?.start || "",
             items:
               (await extractRelationIds(data["Sub-item"], `${type}`)) || [],
             bgClass:
@@ -114,6 +115,10 @@ const extractRelationIds = async (
   const results = await Promise.all(promises);
 
   const sortedResults = results.sort((a: any, b: any) => {
+    if (type === 'AnnouncementItem') {
+      // 依Date由新到舊排序
+      return new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime();
+    }
     return a.ID - b.ID;
   });
 
