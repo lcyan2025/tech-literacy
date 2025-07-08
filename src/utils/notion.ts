@@ -228,6 +228,7 @@ const findExpertiseData = async (): Promise<any | null> => {
     const data = response.results.map((result: any) => ({
       ID: extractContent(result.properties.Number?.title, "text") || "",
       Name: extractContent(result.properties.Name?.rich_text, "text") || result.properties.Name?.formula?.string || "",
+      Category: result.properties.Category?.select?.name || "",
     }));
 
     return data;
