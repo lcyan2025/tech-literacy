@@ -7,7 +7,7 @@ import IntroCard from "@/components/intro-card/intro-card";
 import MindMapCard from "@/components/mind-map-card/mind-map-card";
 import TimelineItem from "@/components/timeline-item/timeline-item";
 
-import { findRouteData } from "@/utils/notion";
+import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/about");

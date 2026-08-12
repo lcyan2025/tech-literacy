@@ -3,7 +3,7 @@ export const revalidate = 60;
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import Card from "@/components/card/card";
 
-import { findRouteData } from "@/utils/notion";
+import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/partner");

@@ -1,4 +1,4 @@
-import { findCourseData } from "@/utils/notion";
+import { findCourseData } from "@/lib/content/legacy-adapter";
 import Link from "next/link";
 import { IconHandClick } from "@tabler/icons-react";
 

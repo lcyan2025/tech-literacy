@@ -1,4 +1,4 @@
-import { findRouteData } from "@/utils/notion";
+import { findRouteData } from "@/lib/content/legacy-adapter";
 import { NextResponse } from "next/server";
 
 export async function GET() {

@@ -1,7 +1,7 @@
 export const revalidate = 60;
 
 import Image from "next/image";
-import { findAllActivityData } from "@/utils/notion";
+import { findAllActivityData } from "@/lib/content/legacy-adapter";
 
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import Link from "next/link";

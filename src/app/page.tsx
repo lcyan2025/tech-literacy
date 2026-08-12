@@ -6,7 +6,7 @@ import Card from "@/components/card/card";
 import Announcement from "@/components/announcement/announcement";
 import Team from "@/components/team/team";
 
-import { findRouteData } from "@/utils/notion";
+import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/");

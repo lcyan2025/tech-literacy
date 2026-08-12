@@ -7,7 +7,7 @@ import CourseTable from "@/components/course-table/course-table";
 import ExpertiseList from "@/components/expertise-list/expertise-list";
 import Announcement from "@/components/announcement/announcement";
 
-import { findRouteData } from "@/utils/notion";
+import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/expertise");

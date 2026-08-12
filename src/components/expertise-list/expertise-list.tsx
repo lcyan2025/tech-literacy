@@ -1,4 +1,4 @@
-import { findExpertiseData } from "@/utils/notion";
+import { findExpertiseData } from "@/lib/content/legacy-adapter";
 
 interface Expertise {
   ID: string;
