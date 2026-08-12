@@ -1,4 +1,4 @@
-import { submitComment } from "@/utils/notion";
+import { submitComment } from "@/lib/content/legacy-adapter";
 
 export async function POST(req: Request) {
   try {
