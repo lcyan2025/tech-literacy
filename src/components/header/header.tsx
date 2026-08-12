@@ -3,17 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 
-export default function Header() {
-  const pathname = usePathname();
+function HeaderNavigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
 
   return (
     <header className={`${isMenuOpen ? "active" : ""} group/header`}>
@@ -139,4 +135,10 @@ export default function Header() {
       />
     </header>
   );
+}
+
+export default function Header() {
+  const pathname = usePathname();
+
+  return <HeaderNavigation key={pathname} />;
 }
