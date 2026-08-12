@@ -23,8 +23,13 @@ const InfoSection: React.FC<any> = ({ title, content }) => {
   );
 };
 
-const Page: React.FC = async ({ params }: any) => {
-  const data = await findCourseData(params.course);
+type PageProps = {
+  params: Promise<{ course: string }>;
+};
+
+const Page = async ({ params }: PageProps) => {
+  const { course } = await params;
+  const data = await findCourseData(course);
   if (!data) {
     return notFound();
   }

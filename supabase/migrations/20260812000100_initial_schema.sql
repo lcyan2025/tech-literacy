@@ -108,6 +108,7 @@ create table if not exists public.activities (
   link text not null default '',
   image_url text,
   image_name text,
+  images jsonb not null default '[]'::jsonb check (jsonb_typeof(images) = 'array'),
   legacy_id text,
   is_published boolean not null default true,
   sort_order integer not null default 0,

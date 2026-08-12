@@ -6,8 +6,13 @@ import { findAllActivityData } from "@/lib/content/legacy-adapter";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import Link from "next/link";
 
-const Page: React.FC = async ({ params }: any) => {
-  const routeName = decodeURIComponent(params.type);
+type PageProps = {
+  params: Promise<{ type: string }>;
+};
+
+const Page = async ({ params }: PageProps) => {
+  const { type } = await params;
+  const routeName = decodeURIComponent(type);
 
   const data: {
     title: string;

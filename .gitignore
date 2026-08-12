@@ -32,6 +32,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# generated migration snapshots and local Supabase state
+/migration/legacy-site/
+/supabase/.temp/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

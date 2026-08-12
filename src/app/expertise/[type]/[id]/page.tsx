@@ -6,9 +6,14 @@ import { findActivityData } from "@/lib/content/legacy-adapter";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import ExpandableImage from "@/components/expandable-image/expandable-image";
 
-const Page: React.FC = async ({ params }: any) => {
-  const routeType = decodeURIComponent(params.type);
-  const routeName = decodeURIComponent(params.id);
+type PageProps = {
+  params: Promise<{ type: string; id: string }>;
+};
+
+const Page = async ({ params }: PageProps) => {
+  const { type, id } = await params;
+  const routeType = decodeURIComponent(type);
+  const routeName = decodeURIComponent(id);
 
   const data = await findActivityData(routeName);
 

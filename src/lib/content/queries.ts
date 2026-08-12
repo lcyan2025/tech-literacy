@@ -231,7 +231,7 @@ export async function getActivities(
   let query = supabase
     .from("activities")
     .select(
-      "id, legacy_id, title, description, activity_type, link, image_url, image_name",
+      "id, legacy_id, title, description, activity_type, link, image_url, image_name, images",
     )
     .eq("is_published", true)
     .order("sort_order", { ascending: false });
@@ -241,25 +241,25 @@ export async function getActivities(
   const { data, error } = await query;
   if (error) throw error;
 
-  return ((data || []) as Array<Record<string, unknown>>).map((row) => ({
-    id: String(row.id),
-    legacyId: row.legacy_id ? String(row.legacy_id) : undefined,
-    title: String(row.title || ""),
-    description: String(row.description || ""),
-    link: String(row.link || ""),
-    type: String(row.activity_type || ""),
-    image: mediaRef(
+  return ((data || []) as Array<Record<string, unknown>>).map((row) => {
+    const fallbackImage = mediaRef(
       (row.image_url as string | null) || null,
       (row.image_name as string | null) || null,
-    )
-      ? [
-          mediaRef(
-            (row.image_url as string | null) || null,
-            (row.image_name as string | null) || null,
-          ) as MediaRef,
-        ]
-      : [],
-  }));
+    );
+    const images = Array.isArray(row.images)
+      ? (row.images as MediaRef[]).filter((image) => image?.url)
+      : [];
+
+    return {
+      id: String(row.id),
+      legacyId: row.legacy_id ? String(row.legacy_id) : undefined,
+      title: String(row.title || ""),
+      description: String(row.description || ""),
+      link: String(row.link || ""),
+      type: String(row.activity_type || ""),
+      image: images.length > 0 ? images : fallbackImage ? [fallbackImage] : [],
+    };
+  });
 }
 
 export async function submitComment(input: {
