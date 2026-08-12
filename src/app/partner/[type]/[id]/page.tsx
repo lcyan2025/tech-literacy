@@ -9,15 +9,8 @@ import ExpandableImage from "@/components/expandable-image/expandable-image";
 const Page: React.FC = async ({ params }: any) => {
   const routeType = decodeURIComponent(params.type);
   const routeName = decodeURIComponent(params.id);
-  
-  const data: {
-    title: string;
-    description: string;
-    image: {
-      name: string;
-      url: string;
-    }[];
-  } = await findActivityData(routeName);
+
+  const data = await findActivityData(routeName);
 
   if (!data) {
     return notFound();
