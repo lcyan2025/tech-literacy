@@ -61,11 +61,11 @@ function mapItem(row: ItemRow, children: ContentItem[]): ContentItem {
     title: row.title,
     description: row.description,
     link: row.link,
-    image: mediaRef(row.image_url, row.image_name),
+    image: mediaRef(row.image_url, row.image_name) || { name: "", url: "" },
     date: row.date || undefined,
-    bgClass: row.bg_class || undefined,
-    shadowClass: row.shadow_class || undefined,
-    position: row.position || undefined,
+    bgClass: row.bg_class || "",
+    shadowClass: row.shadow_class || "",
+    position: row.position || "",
     items: children,
   };
 }

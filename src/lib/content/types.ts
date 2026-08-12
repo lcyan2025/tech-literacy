@@ -6,19 +6,25 @@ export interface MediaRef {
 export interface ContentItem {
   id: string;
   ID?: string | number;
-  name?: string;
-  title?: string;
-  description?: string;
-  link?: string;
-  image?: MediaRef | MediaRef[] | null;
+  name: string;
+  title: string;
+  description: string;
+  link: string;
+  image: MediaRef;
   date?: string;
-  bgClass?: string;
-  shadowClass?: string;
-  position?: string;
-  items?: ContentItem[];
+  bgClass: string;
+  shadowClass: string;
+  position: string;
+  items: ContentItem[];
 }
 
-export interface ContentSection extends ContentItem {
+export interface ContentSection {
+  id: string;
+  ID?: string | number;
+  name: string;
+  title: string;
+  description: string;
+  image: MediaRef[];
   items: ContentItem[];
 }
 
