@@ -2,7 +2,7 @@ export const revalidate = 60;
 
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { findCourseData } from "@/utils/notion";
+import { findCourseData } from "@/lib/content/legacy-adapter";
 
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import TabContainer from "@/components/tab-container/tab-container";
