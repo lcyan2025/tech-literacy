@@ -23,6 +23,7 @@ type SectionType = (typeof sectionTypes)[number];
 
 type ItemRow = {
   id: string;
+  section_id: string;
   parent_id: string | null;
   name: string;
   title: string;
@@ -152,7 +153,7 @@ export async function getRouteContent(
 
   for (const section of sectionRows) {
     const sectionItems = itemRows.filter(
-      (item) => (item as ItemRow & { section_id?: string }).section_id === section.id,
+      (item) => item.section_id === section.id,
     );
     result[section.section_type].push(sectionItem(section, sectionItems));
   }
