@@ -1,6 +1,7 @@
 export const revalidate = 60;
 
 import { IconFileText } from "@tabler/icons-react";
+import { notFound } from "next/navigation";
 
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import CourseTable from "@/components/course-table/course-table";
@@ -11,6 +12,8 @@ import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/expertise");
+  if (!data) notFound();
+
   const ExpertiseAnnouncement = data.Announcement.find(
     ({ name }: any) => name === "ExpertiseAnnouncement"
   );
@@ -35,9 +38,9 @@ const Page: React.FC = async () => {
         </div>
       </section>
       <Announcement
-        title={ExpertiseAnnouncement.title}
+        title={ExpertiseAnnouncement?.title || ""}
         sectionId="ExpertiseAnnouncement"
-        items={ExpertiseAnnouncement.items}
+        items={ExpertiseAnnouncement?.items || []}
       />
       <section id="ExpertiseDescription">
         <div className="container py-8 md:py-16">

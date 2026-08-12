@@ -2,11 +2,14 @@ export const revalidate = 60;
 
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import Card from "@/components/card/card";
+import { notFound } from "next/navigation";
 
 import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/partner");
+  if (!data) notFound();
+
   const PartnerQuickCard = data.QuickLinkCard.find(
     ({ name }: any) => name === "PartnerQuickCard"
   );
@@ -24,7 +27,7 @@ const Page: React.FC = async () => {
       <section id="PartnerQuickCard" className="bg-gray-200/55">
         <div className="container py-8 md:py-16">
           <div className="col-span-1 md:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-            {PartnerQuickCard.items.map((item: any, index: any) => (
+            {(PartnerQuickCard?.items || []).map((item: any, index: any) => (
               <Card
                 key={index}
                 title={item.title}

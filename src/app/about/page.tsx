@@ -1,6 +1,7 @@
 export const revalidate = 60;
 
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import IntroCard from "@/components/intro-card/intro-card";
@@ -11,6 +12,8 @@ import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/about");
+  if (!data) notFound();
+
   const ProjectOverview = data.IntroCard.find(
     ({ name }: any) => name === "ProjectOverview"
   );
@@ -23,6 +26,9 @@ const Page: React.FC = async () => {
   const ProjectTimeline = data.Timeline.find(
     ({ name }: any) => name === "ProjectTimeline"
   );
+  const projectPurposeImage = Array.isArray(ProjectPurpose?.image)
+    ? ProjectPurpose.image[0]
+    : ProjectPurpose?.image;
 
   return (
     <main>
@@ -40,7 +46,7 @@ const Page: React.FC = async () => {
             <h2 className="font-semibold text-2xl md:text-3xl text-center" dangerouslySetInnerHTML={{ __html: ProjectOverview?.title || "" }} />
             <div className="flex flex-col gap-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {ProjectOverview.items.map((item: any, index: any) => (
+                {(ProjectOverview?.items || []).map((item: any, index: any) => (
                   <IntroCard
                     key={index}
                     title={item.title}
@@ -58,7 +64,7 @@ const Page: React.FC = async () => {
           <div className="flex flex-col gap-4 md:gap-8">
             <h2 className="font-semibold text-2xl md:text-3xl text-center" dangerouslySetInnerHTML={{ __html: ProjectStructure?.title || "" }} />
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-8 w-fit m-auto">
-              {ProjectStructure.items.map((item: any, index: any) => (
+              {(ProjectStructure?.items || []).map((item: any, index: any) => (
                 <MindMapCard {...item} key={index} />
               ))}
               <div id="ProjectPurpose" className="flex max-w-2xl">
@@ -66,14 +72,16 @@ const Page: React.FC = async () => {
                   <h4 className="font-semibold text-lg mb-2" dangerouslySetInnerHTML={{ __html: ProjectPurpose?.title || "" }} />
                   <div dangerouslySetInnerHTML={{ __html: ProjectPurpose?.description || ""}} />
                 </article>
-                <Image
-                  src={ProjectPurpose.image[0]?.url}
-                  alt={ProjectPurpose.image[0]?.name}
-                  width={400}
-                  height={400}
-                  className="hidden md:block w-60 max-w-full aspect-square object-contain object-center"
-                  priority={true}
-                />
+                {projectPurposeImage?.url && (
+                  <Image
+                    src={projectPurposeImage.url}
+                    alt={projectPurposeImage.name || ""}
+                    width={400}
+                    height={400}
+                    className="hidden md:block w-60 max-w-full aspect-square object-contain object-center"
+                    priority={true}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -84,7 +92,7 @@ const Page: React.FC = async () => {
           <div className="flex flex-col gap-4 md:gap-8">
             <h2 className="font-semibold text-2xl md:text-3xl text-center" dangerouslySetInnerHTML={{ __html: ProjectTimeline?.title || "" }} />
             <div className="timeline grid grid-cols-1 md:grid-cols-2">
-              {ProjectTimeline.items.map((item: any, index: any) => (
+              {(ProjectTimeline?.items || []).map((item: any, index: any) => (
                 <TimelineItem
                   key={index}
                   title={item.title}

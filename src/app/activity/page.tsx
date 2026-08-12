@@ -2,11 +2,14 @@ export const revalidate = 60;
 
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import Announcement from "@/components/announcement/announcement";
+import { notFound } from "next/navigation";
 
 import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/activity");
+  if (!data) notFound();
+
   const ActivityAnnouncement = data.Announcement.find(
     ({ name }: any) => name === "ActivityAnnouncement"
   );
@@ -21,7 +24,10 @@ const Page: React.FC = async () => {
           <Breadcrumb />
         </div>
       </section>
-      <Announcement sectionId="ActivityAnnouncement" items={ActivityAnnouncement.items} />
+      <Announcement
+        sectionId="ActivityAnnouncement"
+        items={ActivityAnnouncement?.items || []}
+      />
     </main>
   );
 };

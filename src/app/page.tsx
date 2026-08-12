@@ -1,6 +1,7 @@
 export const revalidate = 60;
 
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 import Card from "@/components/card/card";
 import Announcement from "@/components/announcement/announcement";
@@ -10,6 +11,8 @@ import { findRouteData } from "@/lib/content/legacy-adapter";
 
 const Page: React.FC = async () => {
   const data = await findRouteData("/");
+  if (!data) notFound();
+
   const HomeHero = data.Article.find(({ name }: any) => name === "HomeHero");
   const LatestAnnouncement = data.Announcement.find(
     ({ name }: any) => name === "LatestAnnouncement"
@@ -20,6 +23,9 @@ const Page: React.FC = async () => {
   const MeetTheTeam = data.MeetTheTeam.find(
     ({ name }: any) => name === "MeetTheTeam"
   );
+  const homeHeroImage = Array.isArray(HomeHero?.image)
+    ? HomeHero.image[0]
+    : HomeHero?.image;
 
   return (
     <main>
@@ -32,20 +38,22 @@ const Page: React.FC = async () => {
               </h1>
             </div>
             <div id="HomeHero" className="col-span-1 md:col-span-4 flex flex-col justify-center items-center">
-              <Image
-                src={HomeHero.image[0]?.url}
-                alt={HomeHero.image[0]?.name}
-                width={1080}
-                height={1080}
-                className="w-full h-full max-h-60 aspect-square object-contain object-center m-auto"
-                priority={true}
-              />
+              {homeHeroImage?.url && (
+                <Image
+                  src={homeHeroImage.url}
+                  alt={homeHeroImage.name || ""}
+                  width={1080}
+                  height={1080}
+                  className="w-full h-full max-h-60 aspect-square object-contain object-center m-auto"
+                  priority={true}
+                />
+              )}
             </div>
             <div className="col-span-1 md:col-span-9 flex flex-col justify-center items-center">
               <div dangerouslySetInnerHTML={{ __html: HomeHero?.description || "" || "" }} />
             </div>
             <div id="HomeQuickCard" className="col-span-1 md:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-              {HomeQuickCard.items.map((card: any, index: any) => (
+              {(HomeQuickCard?.items || []).map((card: any, index: any) => (
                 <Card
                   key={index}
                   title={card.title}
@@ -58,11 +66,14 @@ const Page: React.FC = async () => {
         </div>
       </section>
       <Announcement
-        title={LatestAnnouncement.title}
+        title={LatestAnnouncement?.title || ""}
         sectionId="LatestAnnouncement"
-        items={LatestAnnouncement.items}
+        items={LatestAnnouncement?.items || []}
       />
-      <Team title={MeetTheTeam.title} items={MeetTheTeam.items} />
+      <Team
+        title={MeetTheTeam?.title || ""}
+        items={MeetTheTeam?.items || []}
+      />
     </main>
   );
 };
