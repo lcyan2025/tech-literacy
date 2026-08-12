@@ -38,7 +38,7 @@ export interface CourseRecord {
   id: string;
   Name: string;
   Title: string;
-  Credits: string;
+  Credits: number;
   Type: string;
   Year: string;
   Category: string;
@@ -61,6 +61,7 @@ export interface ExpertiseRecord {
 
 export interface ActivityRecord {
   id: string;
+  legacyId?: string;
   title: string;
   description: string;
   link: string;
