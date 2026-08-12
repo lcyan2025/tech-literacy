@@ -176,7 +176,7 @@ export async function getCourses(courseId?: string): Promise<CourseRecord[]> {
       id: String(row.id),
       Name: String(row.name || ""),
       Title: String(row.title || ""),
-      Credits: String(row.credits || ""),
+      Credits: Number(row.credits || 0),
       Type: String(row.course_type || ""),
       Year: String(row.year || ""),
       Category: String(row.category || ""),
@@ -231,7 +231,7 @@ export async function getActivities(
   let query = supabase
     .from("activities")
     .select(
-      "id, title, description, activity_type, link, image_url, image_name",
+      "id, legacy_id, title, description, activity_type, link, image_url, image_name",
     )
     .eq("is_published", true)
     .order("sort_order", { ascending: false });
@@ -243,6 +243,7 @@ export async function getActivities(
 
   return ((data || []) as Array<Record<string, unknown>>).map((row) => ({
     id: String(row.id),
+    legacyId: row.legacy_id ? String(row.legacy_id) : undefined,
     title: String(row.title || ""),
     description: String(row.description || ""),
     link: String(row.link || ""),
