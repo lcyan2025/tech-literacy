@@ -5,10 +5,15 @@ import {
   getRouteContent,
   submitComment as insertComment,
 } from "@/lib/content/queries";
+import type { CourseRecord } from "@/lib/content/types";
 
 export const findRouteData = getRouteContent;
 
-export async function findCourseData(courseId?: string) {
+export function findCourseData(courseId: string): Promise<CourseRecord | null>;
+export function findCourseData(): Promise<CourseRecord[]>;
+export async function findCourseData(
+  courseId?: string,
+): Promise<CourseRecord | CourseRecord[] | null> {
   const records = await getCourses(courseId);
   return courseId ? records[0] || null : records;
 }
